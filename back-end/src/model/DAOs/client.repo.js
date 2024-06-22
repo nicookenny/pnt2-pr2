@@ -13,8 +13,12 @@ class ClientRepository {
   };
 
   getClient = async (id) => {
-    const cliente = await this.repo.findOne({ _id: new ObjectId(id) });
-    return cliente;
+    try {
+      const cliente = await this.repo.findOne({ _id: new ObjectId(id) });
+      return cliente;
+    } catch (error) {
+      return null;
+    }
   };
 
   createClient = async (cliente) => {
@@ -29,9 +33,9 @@ class ClientRepository {
   };
 
   removeClient = async (id) => {
-    const clienteBorrado = await this.getClient(id);
+    const deletedClient = await this.getClient(id);
     await this.repo.deleteOne({ _id: new ObjectId(id) });
-    return clienteBorrado;
+    return deletedClient;
   };
 }
 

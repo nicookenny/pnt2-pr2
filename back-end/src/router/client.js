@@ -13,6 +13,11 @@ class ClientRouter {
     this.router.put('/:id', this.controller.updateClient);
     this.router.delete('/:id', this.controller.removeClient);
 
+    this.router.patch(
+      '/:clientId/exchange-reward',
+      this.controller.exchangeReward
+    );
+
     return this.router;
   }
 }
