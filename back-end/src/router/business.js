@@ -14,6 +14,8 @@ class BusinessRouter {
     this.router.delete('/:id', this.controller.removeBusiness);
     this.router.patch('/:businessId/add-reward', this.controller.addReward);
 
+    this.router.patch('cnaje');
+
     return this.router;
   }
 }
