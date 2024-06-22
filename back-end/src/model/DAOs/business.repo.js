@@ -18,8 +18,22 @@ class BusinessRepository {
   };
 
   createBusiness = async (comercio) => {
-    await this.repo.insertOne(comercio);
+    await this.repo.insertOne({
+      ...comercio,
+      rewards: [],
+    });
     return comercio;
+  };
+
+  addReward = async (businessId, reward) => {
+    await this.repo.updateOne(
+      { _id: new ObjectId(businessId) },
+      { $push: { rewards: reward } }
+    );
+
+    const business = await this.getBusiness(businessId);
+
+    return business;
   };
 
   updateBusiness = async (id, comercio) => {

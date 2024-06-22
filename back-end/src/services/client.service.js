@@ -1,3 +1,4 @@
+import { createClientSchema } from '../controllers/schemas/client/create-client.schema.js';
 import ClientRepository from '../model/DAOs/client.repo.js';
 
 class ClientService {
@@ -5,29 +6,33 @@ class ClientService {
     this.repo = new ClientRepository();
   }
 
-  getClients = async (id) => {
-    if (id) {
-      const cliente = await this.repo.getClient(id);
-      return cliente;
-    } else {
-      const clientes = await this.repo.getClients();
-      return clientes;
-    }
+  createClient = async (cliente) => {
+    const { error } = createClientSchema.validate(cliente);
+
+    if (error)
+      throw {
+        error,
+        type: 'ValidationError',
+      };
+
+    const createdClient = await this.repo.createClient({
+      ...cliente,
+      scores: [],
+    });
+
+    return createdClient;
   };
 
-  createClient = async (cliente) => {
-    const clienteGuardado = await this.repo.createClient(cliente);
-    return clienteGuardado;
+  getClientById = async (id) => {
+    const cliente = await this.repo.getClient(id);
+    return cliente;
   };
+
+  addScore = async (id, score) => {};
 
   updateClient = async (id, cliente) => {
-    const clienteActualizado = await this.repo.updateClient(id, cliente);
-    return clienteActualizado;
-  };
-
-  removeClient = async (id) => {
-    const clienteEliminado = await this.repo.removeClient(id);
-    return clienteEliminado;
+    const updatedClient = await this.repo.updateClient(id, cliente);
+    return updatedClient;
   };
 }
 

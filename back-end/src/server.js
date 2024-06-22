@@ -22,6 +22,7 @@ class Server {
     this.app.use('/comercio', new BusinessRouter().start());
     this.app.use('/cliente', new ClientRouter().start());
     this.app.use('/puntaje', new PointsRouter().start());
+    
   }
 
   listen() {
