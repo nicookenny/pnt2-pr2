@@ -23,17 +23,35 @@ class ClientService {
     return createdClient;
   };
 
+  getClients = async () => {
+    const clientes = await this.repo.getClients();
+    return clientes;
+  };
+
   getClientById = async (id) => {
     const cliente = await this.repo.getClient(id);
     return cliente;
   };
 
-  addScore = async (id, score) => {};
 
   updateClient = async (id, cliente) => {
     const updatedClient = await this.repo.updateClient(id, cliente);
     return updatedClient;
   };
+
+  async addScore(clientId, businessId, points) {
+    const client = await this.getClientById(clientId);
+
+    const businessScore = client.scores.find(s => s.businessId === businessId);
+
+    if (businessScore) {
+      businessScore.amount += points;
+    } else {
+      client.scores.push({ businessId, amount: points });
+    }
+
+     return await this.repo.updateClient(clientId, client);
+  }
 }
 
 export default ClientService;
