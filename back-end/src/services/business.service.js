@@ -46,7 +46,7 @@ class BusinessService {
     const { client_id, distancia_maxima } = query;
 
     const clientsService = new ClientService();
-    const client = await clientsService.getClientById(client_id);
+    const client = await clientsService.getClients(client_id);
     const { address: clientAddress } = client;
 
     const comercios = await this.getBusinesses();
@@ -99,6 +99,61 @@ class BusinessService {
 
     return businessWithReward;
   };
+
+  rewardsByClient = async (idClient, idBusiness) => {
+
+    let premiosDisponibles = [];
+    
+    try {
+        const client = await this.clientService.getClients(idClient);
+
+        if (!client) {
+            throw {
+                error: 'Client does not exist',
+                type: 'ValidationError'
+            };
+        }
+
+        const business = await this.getBusinessById(idBusiness);
+
+        if (!business) {
+            throw {
+                error: 'Business does not exist',
+                type: 'ValidationError'
+            };
+        }
+
+        const { scores } = client;
+
+        const clientScore = scores.find(b => b.businessId === idBusiness);
+
+        if (!clientScore || !clientScore.amount) {
+            throw {
+                error: 'Client does not have score for this business',
+                type: 'ValidationError'
+            };
+        }
+
+        const clientScoreAmount = clientScore.amount;
+
+        business.rewards.forEach(r => {
+            if (r.cost <= clientScoreAmount) {
+                premiosDisponibles.push(r);
+            }
+        });
+
+
+        if (premiosDisponibles.length === 0) {
+            premiosDisponibles = "Client does not have enough points to spend in this restaurant";
+        }
+
+        return premiosDisponibles;
+    } catch (error) {
+        console.error("Error in rewardsByClient:", error);
+        throw error; 
+    }
+};
+
 }
 
 export default BusinessService;

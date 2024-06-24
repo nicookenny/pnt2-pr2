@@ -23,9 +23,15 @@ class ClientService {
     return createdClient;
   };
 
-  getClientById = async (id) => {
-    const cliente = await this.repo.getClient(id);
-    return cliente;
+  getClients = async (id) => {
+    if(id)
+      {const cliente = await this.repo.getClient(id);
+      return cliente;
+    } else{
+      const cliente = await this.repo.getClients();
+      return cliente
+    }
+  
   };
 
   addScore = async (id, score) => {};
