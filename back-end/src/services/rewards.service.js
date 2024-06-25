@@ -1,5 +1,5 @@
 import RewardsRepository from '../model/DAOs/rewards.repo.js';
-import { addRewardSchema } from '../controllers/schemas/rewards/add-reward.schema.js';
+import { updateRewardSchema } from '../controllers/schemas/rewards/update-rewards.schema.js';
 
 
 class RewardsService {
@@ -18,7 +18,7 @@ class RewardsService {
   };
 //verr si va o no
   updateReward = async (id, recompensa) => {
-    const { error } = addRewardSchema.validate(recompensa)
+    const { error } = updateRewardSchema.validate(recompensa)
 
     if (error)
       throw {
