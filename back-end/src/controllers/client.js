@@ -10,7 +10,7 @@ class ClientController {
   getClients = async (req, res) => {
     try {
       const { id } = req.params;
-      const clientes = await this.service.getClients(id);
+      const clientes = await this.service.getClientById(id);
       res.json(clientes);
     } catch (error) {
       res.status(500).json({ error: error.message });

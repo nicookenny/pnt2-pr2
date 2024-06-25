@@ -8,14 +8,13 @@ class BusinessRouter {
   }
 
   start() {
+    this.router.get('/:businessId/available-rewards', this.controller.getRewards);
     this.router.get('/:id?', this.controller.getBusinesses);
     this.router.post('/', this.controller.createBusiness);
     this.router.put('/:id', this.controller.updateBusiness);
     this.router.delete('/:id', this.controller.removeBusiness);
     this.router.patch('/:businessId/add-reward', this.controller.addReward);
     this.router.post('/:businessId/add-score', this.controller.addScoreToClient);
-
-    this.router.patch('cnaje');
 
     return this.router;
   }

@@ -101,6 +101,51 @@ class BusinessService {
     return businessWithReward;
   };
 
+  getRewards = async (idClient, idBusiness) => {
+    
+    try {
+      const business = await this.getBusinessById(idBusiness);
+
+      if (!business) {
+          throw {
+              error: 'Business does not exist',
+              type: 'ValidationError'
+          };
+      }
+        if (!idClient){
+          return business.rewards
+        }
+
+        const client = await this.clientService.getClientById(idClient);
+
+        if (!client) {
+            throw {
+                error: 'Client does not exist',
+                type: 'ValidationError'
+            };
+        }
+
+        const { scores } = client;
+
+        const clientScore = scores.find(b => b.businessId === idBusiness);
+
+        if (!clientScore || !clientScore.amount) {
+            throw {
+                error: 'Client does not have score for this business',
+                type: 'ValidationError'
+            };
+        }
+
+        const clientScoreAmount = clientScore.amount;
+
+       const premiosDisponibles = business.rewards.filter(r => r.cost <= clientScoreAmount)
+
+        return premiosDisponibles;
+    } catch (error) {
+        console.error("Error in rewardsByClient:", error);
+        throw error; 
+    }
+};
   addScoreToClient = async (clientId, businessId, points) => {
 
     const { error } = addScoreBusinessSchema.validate(clientId, businessId, points);

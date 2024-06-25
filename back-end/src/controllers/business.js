@@ -113,7 +113,24 @@ class BusinessController {
       }
     }
   };
-  
+  getRewards = async (req, res) =>{
+    try{
+      const {clientId} = req.query;
+      const {businessId} = req.params;
+      const rewardsAvaible = await this.service.getRewards(clientId, businessId)
+      res.json(rewardsAvaible)
+    }
+    catch (error){
+      switch(error?.type){
+        case 'ValidationError':
+          return res.status(400).json({ERROR: error.error});    
+        default:
+          res.status(500).json({ERROR: error.mess})
+      }
+    }
+
+  }
+
   addScoreToClient = async (req, res) => {
     try {
       const { businessId } = req.params;
@@ -134,7 +151,14 @@ class BusinessController {
     }
   }
 
+
+
   
-}
+} 
+  
+
+
+  
+
 
 export default BusinessController;
