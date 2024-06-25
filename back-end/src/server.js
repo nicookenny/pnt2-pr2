@@ -4,6 +4,7 @@ import { Database } from './model/Database.js';
 import BusinessRouter from './router/business.js';
 import ClientRouter from './router/client.js';
 import PointsRouter from './router/points.js';
+import RewardsRouter from './router/rewards.js'
 
 class Server {
   constructor() {
@@ -22,7 +23,7 @@ class Server {
     this.app.use('/comercio', new BusinessRouter().start());
     this.app.use('/cliente', new ClientRouter().start());
     this.app.use('/puntaje', new PointsRouter().start());
-    
+    this.app.use('/recompensa', new RewardsRouter().start());
   }
 
   listen() {
