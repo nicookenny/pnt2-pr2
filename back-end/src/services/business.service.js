@@ -2,6 +2,7 @@ import { createBusinessSchema } from '../controllers/schemas/business/create-bus
 import { getBusinessByIdSchema } from '../controllers/schemas/business/get-business-by-id.schema.js';
 import { addRewardSchema } from '../controllers/schemas/rewards/add-reward.schema.js';
 import { getDistanceFromLatLonInKm } from '../helpers/getDistanceBetweenAddress.js';
+import {addScoreBusinessSchema} from "../controllers/schemas/business/add-score-business.schema.js"
 import BusinessRepository from '../model/DAOs/business.repo.js';
 import ClientService from './client.service.js';
 class BusinessService {
@@ -99,6 +100,19 @@ class BusinessService {
 
     return businessWithReward;
   };
+
+  addScoreToClient = async (clientId, businessId, points) => {
+
+    const { error } = addScoreBusinessSchema.validate(clientId, businessId, points);
+    if (error)
+      throw {
+        error,
+        type: 'ValidationError',
+      };
+
+    return await this.clientService.addScore(clientId, businessId, points);
+  }
+
 }
 
 export default BusinessService;

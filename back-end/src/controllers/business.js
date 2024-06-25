@@ -113,6 +113,28 @@ class BusinessController {
       }
     }
   };
+  
+  addScoreToClient = async (req, res) => {
+    try {
+      const { businessId } = req.params;
+      const { clientId, points } = req.body;
+      
+      const updatedClient = await this.service.addScoreToClient(clientId, businessId, points);
+      
+      res.json(updatedClient);
+    } catch (error) {
+      switch (error?.type) {
+        case 'ValidationError':
+          return res.status(400).json({ error: error.error.message });
+        case 'NotFoundError':
+          return res.status(404).json({ error: error.error });
+        default:
+          res.status(500).json({ error: error.message });
+      }
+    }
+  }
+
+  
 }
 
 export default BusinessController;
