@@ -70,6 +70,31 @@ class ClientController {
     const clienteEliminado = await this.service.removeClient(id);
     res.json(clienteEliminado);
   };
+
+  exchangeReward = async (req, res) => {
+    try {
+      const { clientId } = req.params;
+
+      const { amount, businessId } = req.body;
+
+      
+
+      const cliente = await this.service.exchangeReward(
+        clientId,
+        businessId,
+        amount
+      );
+
+      res.json(cliente);
+    } catch (error) {
+      switch (error?.type) {
+        case 'ValidationError':
+          return res.status(400).json({ error: error.error });
+        default:
+          res.status(500).json({ error: error.message });
+      }
+    }
+  };
 }
 
 export default ClientController;

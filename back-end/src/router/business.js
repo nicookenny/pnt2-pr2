@@ -14,7 +14,7 @@ class BusinessRouter {
     this.router.put('/:id', this.controller.updateBusiness);
     this.router.delete('/:id', this.controller.removeBusiness);
     this.router.patch('/:businessId/add-reward', this.controller.addReward);
-    
+    this.router.post('/:businessId/add-score', this.controller.addScoreToClient);
 
     return this.router;
   }
