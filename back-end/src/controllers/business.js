@@ -113,31 +113,36 @@ class BusinessController {
       }
     }
   };
-  getRewards = async (req, res) =>{
-    try{
-      const {clientId} = req.query;
-      const {businessId} = req.params;
-      const rewardsAvaible = await this.service.getRewards(clientId, businessId)
-      res.json(rewardsAvaible)
-    }
-    catch (error){
-      switch(error?.type){
+  getRewards = async (req, res) => {
+    try {
+      const { clientId } = req.query;
+      const { businessId } = req.params;
+      const rewardsAvaible = await this.service.getRewards(
+        clientId,
+        businessId
+      );
+      res.json(rewardsAvaible);
+    } catch (error) {
+      switch (error?.type) {
         case 'ValidationError':
-          return res.status(400).json({ERROR: error.error});    
+          return res.status(400).json({ ERROR: error.error });
         default:
-          res.status(500).json({ERROR: error.mess})
+          res.status(500).json({ ERROR: error.mess });
       }
     }
-
-  }
+  };
 
   addScoreToClient = async (req, res) => {
     try {
       const { businessId } = req.params;
       const { clientId, points } = req.body;
-      
-      const updatedClient = await this.service.addScoreToClient(clientId, businessId, points);
-      
+
+      const updatedClient = await this.service.addScoreToClient(
+        clientId,
+        businessId,
+        points
+      );
+
       res.json(updatedClient);
     } catch (error) {
       switch (error?.type) {
@@ -149,16 +154,7 @@ class BusinessController {
           res.status(500).json({ error: error.message });
       }
     }
-  }
-
-
-
-  
-} 
-  
-
-
-  
-
+  };
+}
 
 export default BusinessController;

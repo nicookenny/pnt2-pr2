@@ -97,7 +97,9 @@ class ClientService {
   async addScore(clientId, businessId, points) {
     const client = await this.getClientById(clientId);
 
-    const businessScore = client.scores.find(s => s.businessId === businessId);
+    const businessScore = client.scores.find(
+      (s) => s.businessId === businessId
+    );
 
     if (businessScore) {
       businessScore.amount += points;
@@ -105,7 +107,7 @@ class ClientService {
       client.scores.push({ businessId, amount: points });
     }
 
-     return await this.repo.updateClient(clientId, client);
+    return await this.repo.updateClient(clientId, client);
   }
 }
 

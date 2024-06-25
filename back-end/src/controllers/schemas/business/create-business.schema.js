@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const createBusinessSchema = Joi.object({
-  identifier: Joi.string().required(), 
+  identifier: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
   name: Joi.string().required(),

@@ -19,12 +19,15 @@ class RewardsController {
     try {
       const { id } = req.params;
       const recompensa = req.body;
-      const recompensaActualizado = await this.service.updateReward(id, recompensa);
+      const recompensaActualizado = await this.service.updateReward(
+        id,
+        recompensa
+      );
       res.json(recompensaActualizado);
     } catch (error) {
-      if (error?.type == 'ValidationError'){
+      if (error?.type == 'ValidationError') {
         return res.status(400).json({ error: error.error.message });
-      }else{
+      } else {
         res.status(500).json({ error: error.message });
       }
     }

@@ -4,7 +4,7 @@ import { Database } from './model/Database.js';
 import BusinessRouter from './router/business.js';
 import ClientRouter from './router/client.js';
 import PointsRouter from './router/points.js';
-import RewardsRouter from './router/rewards.js'
+import RewardsRouter from './router/rewards.js';
 
 class Server {
   constructor() {

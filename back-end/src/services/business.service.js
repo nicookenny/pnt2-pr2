@@ -1,8 +1,8 @@
+import { addScoreBusinessSchema } from '../controllers/schemas/business/add-score-business.schema.js';
 import { createBusinessSchema } from '../controllers/schemas/business/create-business.schema.js';
 import { getBusinessByIdSchema } from '../controllers/schemas/business/get-business-by-id.schema.js';
 import { addRewardSchema } from '../controllers/schemas/rewards/add-reward.schema.js';
 import { getDistanceFromLatLonInKm } from '../helpers/getDistanceBetweenAddress.js';
-import {addScoreBusinessSchema} from "../controllers/schemas/business/add-score-business.schema.js"
 import BusinessRepository from '../model/DAOs/business.repo.js';
 import ClientService from './client.service.js';
 class BusinessService {
@@ -102,53 +102,57 @@ class BusinessService {
   };
 
   getRewards = async (idClient, idBusiness) => {
-    
     try {
       const business = await this.getBusinessById(idBusiness);
 
       if (!business) {
-          throw {
-              error: 'Business does not exist',
-              type: 'ValidationError'
-          };
+        throw {
+          error: 'Business does not exist',
+          type: 'ValidationError',
+        };
       }
-        if (!idClient){
-          return business.rewards
-        }
+      if (!idClient) {
+        return business.rewards;
+      }
 
-        const client = await this.clientService.getClientById(idClient);
+      const client = await this.clientService.getClientById(idClient);
 
-        if (!client) {
-            throw {
-                error: 'Client does not exist',
-                type: 'ValidationError'
-            };
-        }
+      if (!client) {
+        throw {
+          error: 'Client does not exist',
+          type: 'ValidationError',
+        };
+      }
 
-        const { scores } = client;
+      const { scores } = client;
 
-        const clientScore = scores.find(b => b.businessId === idBusiness);
+      const clientScore = scores.find((b) => b.businessId === idBusiness);
 
-        if (!clientScore || !clientScore.amount) {
-            throw {
-                error: 'Client does not have score for this business',
-                type: 'ValidationError'
-            };
-        }
+      if (!clientScore || !clientScore.amount) {
+        throw {
+          error: 'Client does not have score for this business',
+          type: 'ValidationError',
+        };
+      }
 
-        const clientScoreAmount = clientScore.amount;
+      const clientScoreAmount = clientScore.amount;
 
-       const premiosDisponibles = business.rewards.filter(r => r.cost <= clientScoreAmount)
+      const premiosDisponibles = business.rewards.filter(
+        (r) => r.cost <= clientScoreAmount
+      );
 
-        return premiosDisponibles;
+      return premiosDisponibles;
     } catch (error) {
-        console.error("Error in rewardsByClient:", error);
-        throw error; 
+      console.error('Error in rewardsByClient:', error);
+      throw error;
     }
-};
+  };
   addScoreToClient = async (clientId, businessId, points) => {
-
-    const { error } = addScoreBusinessSchema.validate(clientId, businessId, points);
+    const { error } = addScoreBusinessSchema.validate(
+      clientId,
+      businessId,
+      points
+    );
     if (error)
       throw {
         error,
@@ -156,8 +160,7 @@ class BusinessService {
       };
 
     return await this.clientService.addScore(clientId, businessId, points);
-  }
-
+  };
 }
 
 export default BusinessService;

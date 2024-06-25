@@ -1,4 +1,3 @@
-
 export const dbConfig = {
   DATABASE_CONNECTION_STRING:
     process.env.DATABASE_CONNECTION_STRING || 'mongodb://localhost:27017',

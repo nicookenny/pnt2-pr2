@@ -77,8 +77,6 @@ class ClientController {
 
       const { amount, businessId } = req.body;
 
-      
-
       const cliente = await this.service.exchangeReward(
         clientId,
         businessId,

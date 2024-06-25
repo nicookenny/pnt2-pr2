@@ -1,6 +1,5 @@
-import RewardsRepository from '../model/DAOs/rewards.repo.js';
 import { updateRewardSchema } from '../controllers/schemas/rewards/update-rewards.schema.js';
-
+import RewardsRepository from '../model/DAOs/rewards.repo.js';
 
 class RewardsService {
   constructor() {
@@ -16,24 +15,23 @@ class RewardsService {
       return recompensas;
     }
   };
-//verr si va o no
+  //verr si va o no
   updateReward = async (id, recompensa) => {
-    const { error } = updateRewardSchema.validate(recompensa)
+    const { error } = updateRewardSchema.validate(recompensa);
 
     if (error)
       throw {
         error,
         type: 'ValidationError',
-      }
-      const recompensaActualizado = await this.repo.updateReward(id, recompensa);
-      return recompensaActualizado; 
+      };
+    const recompensaActualizado = await this.repo.updateReward(id, recompensa);
+    return recompensaActualizado;
   };
 
   deleteReward = async (id) => {
     const recompensaEliminada = await this.repo.deleteReward(id);
     return recompensaEliminada;
-
-  }
+  };
 }
 
 export default RewardsService;
