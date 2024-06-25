@@ -47,7 +47,7 @@ class BusinessService {
     const { client_id, distancia_maxima } = query;
 
     const clientsService = new ClientService();
-    const client = await clientsService.getClients(client_id);
+    const client = await clientsService.getClientById(client_id);
     const { address: clientAddress } = client;
 
     const comercios = await this.getBusinesses();
@@ -101,25 +101,26 @@ class BusinessService {
     return businessWithReward;
   };
 
-  rewardsByClient = async (idClient, idBusiness) => {
-
-    let premiosDisponibles = [];
+  getRewards = async (idClient, idBusiness) => {
     
     try {
-        const client = await this.clientService.getClients(idClient);
+      const business = await this.getBusinessById(idBusiness);
+
+      if (!business) {
+          throw {
+              error: 'Business does not exist',
+              type: 'ValidationError'
+          };
+      }
+        if (!idClient){
+          return business.rewards
+        }
+
+        const client = await this.clientService.getClientById(idClient);
 
         if (!client) {
             throw {
                 error: 'Client does not exist',
-                type: 'ValidationError'
-            };
-        }
-
-        const business = await this.getBusinessById(idBusiness);
-
-        if (!business) {
-            throw {
-                error: 'Business does not exist',
                 type: 'ValidationError'
             };
         }
@@ -137,16 +138,7 @@ class BusinessService {
 
         const clientScoreAmount = clientScore.amount;
 
-        business.rewards.forEach(r => {
-            if (r.cost <= clientScoreAmount) {
-                premiosDisponibles.push(r);
-            }
-        });
-
-
-        if (premiosDisponibles.length === 0) {
-            premiosDisponibles = "Client does not have enough points to spend in this restaurant";
-        }
+       const premiosDisponibles = business.rewards.filter(r => r.cost <= clientScoreAmount)
 
         return premiosDisponibles;
     } catch (error) {

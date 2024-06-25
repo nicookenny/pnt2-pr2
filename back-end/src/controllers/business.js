@@ -113,11 +113,11 @@ class BusinessController {
       }
     }
   };
-  rewardsByClient = async (req, res) =>{
+  getRewards = async (req, res) =>{
     try{
-      const {clientId} = req.params;
+      const {clientId} = req.query;
       const {businessId} = req.params;
-      const rewardsAvaible = await this.service.rewardsByClient(clientId, businessId)
+      const rewardsAvaible = await this.service.getRewards(clientId, businessId)
       res.json(rewardsAvaible)
     }
     catch (error){
@@ -131,8 +131,6 @@ class BusinessController {
 
   }
 
-
-  
   addScoreToClient = async (req, res) => {
     try {
       const { businessId } = req.params;
@@ -153,7 +151,14 @@ class BusinessController {
     }
   }
 
+
+
   
-}
+} 
+  
+
+
+  
+
 
 export default BusinessController;

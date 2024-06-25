@@ -24,17 +24,6 @@ class ClientService {
     return createdClient;
   };
 
-<<<<<<< HEAD
-  getClients = async (id) => {
-    if(id)
-      {const cliente = await this.repo.getClient(id);
-      return cliente;
-    } else{
-      const cliente = await this.repo.getClients();
-      return cliente
-    }
-  
-=======
   getClients = async () => {
     const clientes = await this.repo.getClients();
     return clientes;
@@ -43,7 +32,6 @@ class ClientService {
   getClientById = async (id) => {
     const cliente = await this.repo.getClient(id);
     return cliente;
->>>>>>> main
   };
 
   exchangeReward = async (clientId, businessId, amount) => {

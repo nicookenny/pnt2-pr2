@@ -8,7 +8,7 @@ class BusinessRouter {
   }
 
   start() {
-    this.router.get('/avaible-rewards/:clientId/:businessId', this.controller.rewardsByClient);
+    this.router.get('/:businessId/available-rewards', this.controller.getRewards);
     this.router.get('/:id?', this.controller.getBusinesses);
     this.router.post('/', this.controller.createBusiness);
     this.router.put('/:id', this.controller.updateBusiness);
