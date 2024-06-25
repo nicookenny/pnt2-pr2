@@ -1,4 +1,5 @@
 import { createClientSchema } from '../controllers/schemas/client/create-client.schema.js';
+import { exchangeRewardSchema } from '../controllers/schemas/client/exchange-reward.schema.js';
 import ClientRepository from '../model/DAOs/client.repo.js';
 
 class ClientService {
@@ -28,7 +29,60 @@ class ClientService {
     return cliente;
   };
 
-  addScore = async (id, score) => {};
+  exchangeReward = async (clientId, businessId, amount) => {
+    const { error } = exchangeRewardSchema.validate({
+      clientId,
+      businessId,
+      amount,
+    });
+
+    if (error)
+      throw {
+        error,
+        type: 'ValidationError',
+      };
+
+    const client = await this.repo.getClient(clientId);
+    if (!client)
+      throw {
+        error: 'Client does not exist',
+        type: 'ValidationError',
+      };
+
+    const { scores } = client;
+    const businessScore = scores.find((s) => s.businessId === businessId);
+
+    if (!businessScore) {
+      throw {
+        error: 'Client does not have score for this business',
+        type: 'ValidationError',
+      };
+    }
+
+    if (businessScore.amount < amount) {
+      throw {
+        error: 'Client does not have enough score for this business',
+        type: 'ValidationError',
+      };
+    }
+
+    const newScores = scores.map((score) => {
+      return {
+        ...score,
+        amount:
+          score.businessId === businessId
+            ? score.amount - amount
+            : score.amount,
+      };
+    });
+
+    const updatedClient = await this.repo.updateClient(clientId, {
+      ...client,
+      scores: newScores,
+    });
+
+    return updatedClient;
+  };
 
   updateClient = async (id, cliente) => {
     const updatedClient = await this.repo.updateClient(id, cliente);
