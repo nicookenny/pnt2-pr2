@@ -22,7 +22,6 @@ class Server {
   applyRoutes() {
     this.app.use('/comercio', new BusinessRouter().start());
     this.app.use('/cliente', new ClientRouter().start());
-    this.app.use('/puntaje', new PointsRouter().start());
     this.app.use('/recompensa', new RewardsRouter().start());
   }
 
