@@ -96,10 +96,19 @@ class ClientService {
 
   async addScore(clientId, businessId, points) {
     const client = await this.getClientById(clientId);
+    console.log({ client });
 
-    const businessScore = client.scores.find(
+    if (!client)
+      return {
+        error: 'Client does not exist',
+        type: 'ValidationError',
+      };
+
+    const businessScore = client?.scores?.find(
       (s) => s.businessId === businessId
     );
+
+    console.log({ clientId, businessId, points });
 
     if (businessScore) {
       businessScore.amount += points;
@@ -109,6 +118,11 @@ class ClientService {
 
     return await this.repo.updateClient(clientId, client);
   }
+
+  removeClient = async (id) => {
+    const deletedClient = await this.repo.removeClient(id);
+    return deletedClient;
+  };
 }
 
 export default ClientService;

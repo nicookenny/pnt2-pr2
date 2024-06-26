@@ -28,7 +28,14 @@ class BusinessRepository {
   addReward = async (businessId, reward) => {
     await this.repo.updateOne(
       { _id: new ObjectId(businessId) },
-      { $push: { rewards: reward } }
+      {
+        $push: {
+          rewards: {
+            ...reward,
+            _id: new ObjectId(),
+          },
+        },
+      }
     );
 
     const business = await this.getBusiness(businessId);
@@ -46,6 +53,17 @@ class BusinessRepository {
     const comercioBorrado = await this.getBusiness(id);
     await this.repo.deleteOne({ _id: new ObjectId(id) });
     return comercioBorrado;
+  };
+
+  updateReward = async (businessId, rewardId, reward) => {
+    await this.repo.updateOne(
+      { _id: new ObjectId(businessId), 'rewards._id': new ObjectId(rewardId) },
+      { $set: { 'rewards.$': reward } }
+    );
+
+    const business = await this.getBusiness(businessId);
+
+    return business;
   };
 }
 

@@ -46,7 +46,8 @@ class BusinessService {
   getBusinessesWithQuery = async (query) => {
     const { client_id, distancia_maxima } = query;
 
-    const client = await this.getClientById(client_id);
+    const clientsService = new ClientService();
+    const client = await clientsService.getClientById(client_id);
     const { address: clientAddress } = client;
 
     const comercios = await this.getBusinesses();
@@ -147,11 +148,12 @@ class BusinessService {
     }
   };
   addScoreToClient = async (clientId, businessId, points) => {
-    const { error } = addScoreBusinessSchema.validate(
+    const { error } = addScoreBusinessSchema.validate({
       clientId,
       businessId,
-      points
-    );
+      points,
+    });
+    
     if (error)
       throw {
         error,
@@ -159,6 +161,11 @@ class BusinessService {
       };
 
     return await this.clientService.addScore(clientId, businessId, points);
+  };
+
+  updateReward = async (id, recompensa) => {
+    const recompensaActualizada = await this.repo.updateReward(id, recompensa);
+    return recompensaActualizada;
   };
 }
 

@@ -22,6 +22,23 @@ class BusinessController {
     }
   };
 
+  getBusinessById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const comercio = await this.service.getBusinessById(id);
+      res.json(comercio);
+    } catch (error) {
+      switch (error?.type) {
+        case 'ValidationError':
+          return res.status(400).json({ error: error.error.message });
+        case 'NotFoundError':
+          return res.status(404).json({ error: error.error });
+        default:
+          res.status(500).json({ error: error.message });
+      }
+    }
+  };
+
   getBusinessByClient = async (req, res) => {
     try {
       const { clientId } = req.params;
@@ -127,6 +144,7 @@ class BusinessController {
       }
     }
   };
+
   getRewards = async (req, res) => {
     try {
       const { clientId } = req.query;
@@ -158,6 +176,22 @@ class BusinessController {
       );
 
       res.json(updatedClient);
+    } catch (error) {
+      switch (error?.type) {
+        case 'ValidationError':
+          return res.status(400).json({ error: error.error.message });
+        case 'NotFoundError':
+          return res.status(404).json({ error: error.error });
+        default:
+          res.status(500).json({ error: error.message });
+      }
+    }
+  };
+
+  updateReward = async (req, res) => {
+    try {
+      const { businessId, rewardId } = req.params;
+      const reward = req.body;
     } catch (error) {
       switch (error?.type) {
         case 'ValidationError':
