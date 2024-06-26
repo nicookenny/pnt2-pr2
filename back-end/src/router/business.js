@@ -22,6 +22,8 @@ class BusinessRouter {
       this.controller.addScoreToClient
     );
 
+    this.router.get('/client/:clientId', this.controller.getBusinessByClient);
+
     return this.router;
   }
 }
