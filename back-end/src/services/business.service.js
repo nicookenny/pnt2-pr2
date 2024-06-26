@@ -46,8 +46,7 @@ class BusinessService {
   getBusinessesWithQuery = async (query) => {
     const { client_id, distancia_maxima } = query;
 
-    const clientsService = new ClientService();
-    const client = await clientsService.getClientById(client_id);
+    const client = await this.getClientById(client_id);
     const { address: clientAddress } = client;
 
     const comercios = await this.getBusinesses();

@@ -10,20 +10,34 @@ class BusinessController {
 
   getBusinesses = async (req, res) => {
     try {
-      const { client_id } = req.headers;
-      const { distancia_maxima } = req.query;
+      const comercios = await this.service.getBusinesses();
+      res.json(comercios);
+    } catch (error) {
+      switch (error?.type) {
+        case 'ValidationError':
+          return res.status(400).json({ error: error.error.message });
+        default:
+          res.status(500).json({ error: error.message });
+      }
+    }
+  };
 
-      if (client_id && distancia_maxima) {
+  getBusinessByClient = async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const { distancia_maxima } = req.query;
+      if (clientId && distancia_maxima) {
         const comercios = await this.service.getBusinessesWithQuery({
-          client_id,
+          client_id: clientId,
           distancia_maxima,
         });
 
         return res.json(comercios);
-      } else {
-        const comercios = await this.service.getBusinesses();
-        res.json(comercios);
       }
+
+      res.status(400).json({
+        error: 'Es necesario enviar el id del cliente y la distancia máxima',
+      });
     } catch (error) {
       switch (error?.type) {
         case 'ValidationError':
