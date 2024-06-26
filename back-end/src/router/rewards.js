@@ -9,8 +9,6 @@ class RewardsRouter {
 
   start() {
     this.router.get('/:id?', this.controller.getRewards);
-    this.router.patch('/:id', this.controller.updateReward);
-    this.router.delete('/:id', this.controller.deleteReward);
     return this.router;
   }
 }
