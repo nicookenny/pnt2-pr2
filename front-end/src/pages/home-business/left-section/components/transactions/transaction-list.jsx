@@ -2,6 +2,7 @@ import { TransactionListContainer } from './styled-components';
 import { Transaction } from './transaction';
 
 export const TransactionList = ({ transactions = [] }) => {
+  console.log('transactions', transactions);
   return (
     <TransactionListContainer>
       {transactions.map((transaction) => (

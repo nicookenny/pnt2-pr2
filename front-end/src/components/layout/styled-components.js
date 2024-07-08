@@ -4,8 +4,6 @@ export const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
 `;
 
 export const NavigationContainer = styled.div`
@@ -16,6 +14,7 @@ export const NavigationContainer = styled.div`
   align-items: center;
   background-color: #281808;
   color: white;
+  font-weight: bold;
 `;
 
 export const ContentContainer = styled.div`
@@ -23,4 +22,5 @@ export const ContentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 `;

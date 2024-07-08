@@ -6,6 +6,10 @@ export const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 2rem;
 `;
 
-export const Title = styled.div``;
+export const Title = styled.h2`
+  font-weight: 400;
+  font-size: 1.75rem;
+`;

@@ -6,7 +6,6 @@ export const HomeBusiness = () => {
   return (
     <Container>
       <LeftSection />
-      
       <RightSection />
     </Container>
   );

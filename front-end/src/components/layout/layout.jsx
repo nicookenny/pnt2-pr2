@@ -7,7 +7,7 @@ import {
 export const Layout = ({ children }) => {
   return (
     <LayoutContainer>
-      <NavigationContainer>Navegacion</NavigationContainer>
+      <NavigationContainer>Coffee Loyal</NavigationContainer>
       <ContentContainer>{children}</ContentContainer>
     </LayoutContainer>
   );
