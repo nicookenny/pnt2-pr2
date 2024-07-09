@@ -167,10 +167,10 @@ class BusinessController {
   addScoreToClient = async (req, res) => {
     try {
       const { businessId } = req.params;
-      const { clientId, points } = req.body;
+      const { email, points } = req.body;
 
       const updatedClient = await this.service.addScoreToClient(
-        clientId,
+        email,
         businessId,
         points
       );

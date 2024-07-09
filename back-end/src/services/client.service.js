@@ -32,6 +32,11 @@ class ClientService {
   getClientById = async (id) => {
     const cliente = await this.repo.getClient(id);
     return cliente;
+  };  
+  
+  getClientByEmail= async (email) => {
+    const cliente = await this.repo.getClientByEmail(email);
+    return cliente;
   };
 
   exchangeReward = async (clientId, businessId, amount) => {
@@ -94,8 +99,8 @@ class ClientService {
     return updatedClient;
   };
 
-  async addScore(clientId, businessId, points) {
-    const client = await this.getClientById(clientId);
+  async addScore(email, businessId, points) {
+    const client = await this.getClientByEmail(email);
     console.log({ client });
 
     if (!client)
@@ -108,15 +113,16 @@ class ClientService {
       (s) => s.businessId === businessId
     );
 
-    console.log({ clientId, businessId, points });
+    console.log({ email, businessId, points });
 
     if (businessScore) {
-      businessScore.amount += points;
+      businessScore.amount += Number(points);
     } else {
-      client.scores.push({ businessId, amount: points });
+      client.scores.push({ businessId, amount: Number(points) });
     }
 
-    return await this.repo.updateClient(clientId, client);
+    await this.repo.updateClient(client._id, client);
+    return true
   }
 
   removeClient = async (id) => {

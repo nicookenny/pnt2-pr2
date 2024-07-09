@@ -147,9 +147,9 @@ class BusinessService {
       throw error;
     }
   };
-  addScoreToClient = async (clientId, businessId, points) => {
+  addScoreToClient = async (email, businessId, points) => {
     const { error } = addScoreBusinessSchema.validate({
-      clientId,
+      email,
       businessId,
       points,
     });
@@ -160,7 +160,7 @@ class BusinessService {
         type: 'ValidationError',
       };
 
-    return await this.clientService.addScore(clientId, businessId, points);
+    return await this.clientService.addScore(email, businessId, points);
   };
 
   updateReward = async (id, recompensa) => {

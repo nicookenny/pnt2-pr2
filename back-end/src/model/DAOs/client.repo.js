@@ -21,6 +21,15 @@ class ClientRepository {
     }
   };
 
+  getClientByEmail = async (email) => {
+    try {
+      const cliente = await this.repo.findOne({email});
+      return cliente;
+    } catch (error) {
+      return null;
+    }
+  };
+
   createClient = async (cliente) => {
     await this.repo.insertOne(cliente);
     return cliente;
