@@ -1,10 +1,10 @@
+import cors from 'cors';
 import express from 'express';
 import { serverConfig } from './config/server.js';
 import { Database } from './model/Database.js';
 import BusinessRouter from './router/business.js';
 import ClientRouter from './router/client.js';
 import RewardsRouter from './router/rewards.js';
-
 class Server {
   constructor() {
     this.app = express();
@@ -15,6 +15,7 @@ class Server {
   }
 
   applyMiddlewares() {
+    this.app.use(cors());
     this.app.use(express.json());
   }
 
