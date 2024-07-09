@@ -9,9 +9,9 @@ export const Reward = ({ reward }) => {
   return (
     <RewardContainer image={reward.image}>
       <RewardInfo>
-        <RewardTitle>{reward.title}</RewardTitle>
+        <RewardTitle>{reward.name}</RewardTitle>
         <RewardDescription>
-          {reward.description} - {reward.points}
+          {reward.description} - {reward.cost}
         </RewardDescription>
       </RewardInfo>
     </RewardContainer>
