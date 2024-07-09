@@ -24,9 +24,12 @@ export const getRewardsByBusiness = async (businessId) => {
 };
 
 export const addPointsToClient = async (businessId, email, points) => {
-  const {data} = await axios.post(`http://localhost:3000/comercio/${businessId}/add-score`, {
-    email,
-    points,
-  });
-  return data
+  const { data } = await axios.post(
+    `http://localhost:3000/comercio/${businessId}/add-score`,
+    {
+      email,
+      points,
+    }
+  );
+  return data;
 };

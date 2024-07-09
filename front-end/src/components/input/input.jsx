@@ -1,7 +1,11 @@
-import { StyledInput } from "./styled-components"
+import { InputContainer, StyledInput } from './styled-components';
 
-export const Input = ({label, ...props}) => {
-    return (<label> {label}
-        <StyledInput {...props} />
-    </label>)
-}
+export const Input = ({ label, ...props }) => {
+  return (
+    <InputContainer>
+      {' '}
+      {label}
+      <StyledInput {...props} />
+    </InputContainer>
+  );
+};

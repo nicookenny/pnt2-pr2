@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import { HomeBusiness } from './pages/home-business/home-business';
-import { HomeClient } from './pages/home-client/home-client';
 import './reset.css';
 
 const router = createBrowserRouter([
@@ -15,10 +14,6 @@ const router = createBrowserRouter([
       {
         path: '/business',
         element: <HomeBusiness />,
-      },
-      {
-        path: '/client',
-        element: <HomeClient />,
       },
     ],
   },
